@@ -113,7 +113,7 @@ export default function Hero() {
           className="font-heading leading-[0.88] tracking-wider text-crown-white mb-5 select-none"
           style={{ fontSize: 'clamp(4.5rem, 16vw, 15rem)' }}
         >
-          FORGED IN<br />DARKNESS
+          CROWN THE<br />DISCIPLINED
         </h1>
 
         {/* Subheadline */}
@@ -122,7 +122,7 @@ export default function Hero() {
           className="tracking-[0.28em] uppercase text-crown-ash font-light mb-14 max-w-md leading-relaxed"
           style={{ fontSize: 'clamp(0.7rem, 1.8vw, 0.9rem)' }}
         >
-          Built for those who train when nobody is watching.
+          The uniform of the relentless pursuit of greatness.
         </p>
 
         {/* CTAs */}
