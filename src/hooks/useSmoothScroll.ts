@@ -21,6 +21,9 @@ export function useSmoothScroll() {
       touchMultiplier: 1.5,
     })
 
+    // Expose for dev debugging (preview tool needs immediate scroll)
+    ;(window as any).__lenis = lenis
+
     // Keep ScrollTrigger in sync with Lenis scroll position
     lenis.on('scroll', ScrollTrigger.update)
 

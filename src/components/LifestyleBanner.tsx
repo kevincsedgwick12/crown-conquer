@@ -1,26 +1,19 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { splitWords } from '../utils/splitText'
-
 gsap.registerPlugin(ScrollTrigger)
 
-const STATS = [
-  { value: '10K+',  label: 'Athletes' },
-  { value: '42',    label: 'Countries' },
-  { value: '100%',  label: 'Premium Cotton' },
-]
-
-export default function LifestyleBanner() {
+export default function LifestyleSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const bgRef      = useRef<HTMLDivElement>(null)
-  const textRef    = useRef<HTMLHeadingElement>(null)
+  const headingRef = useRef<HTMLHeadingElement>(null)
+  const subRef     = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Cinematic parallax on background pseudo-element
+      // Cinematic parallax on background
       gsap.to(bgRef.current, {
-        yPercent: 20,
+        yPercent: 18,
         ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -30,26 +23,21 @@ export default function LifestyleBanner() {
         },
       })
 
-      // Word reveal on scroll
-      if (textRef.current) {
-        const words = splitWords(textRef.current)
-        gsap.from(words, {
-          y: '110%',
-          opacity: 0,
-          stagger: 0.1,
-          duration: 1.1,
-          ease: 'power4.out',
-          scrollTrigger: {
-            trigger: textRef.current,
-            start: 'top 75%',
-          },
-        })
-      }
+      // Heading clip-reveal (no DOM mutation — safe with React)
+      gsap.from(headingRef.current, {
+        y: 70,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'power4.out',
+        scrollTrigger: {
+          trigger: headingRef.current,
+          start: 'top 77%',
+        },
+      })
 
-      // Stats counter-up
-      gsap.from('.lb-stat', {
-        y: 40, opacity: 0, stagger: 0.12, duration: 0.9, ease: 'power3.out',
-        scrollTrigger: { trigger: '.lb-stat', start: 'top 85%' },
+      gsap.from(subRef.current, {
+        opacity: 0, y: 30, duration: 1.0, ease: 'power3.out',
+        scrollTrigger: { trigger: subRef.current, start: 'top 85%' },
       })
     }, sectionRef)
 
@@ -59,81 +47,98 @@ export default function LifestyleBanner() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden"
+      id="lifestyle"
+      className="relative min-h-[90vh] flex items-center justify-center overflow-hidden"
     >
-      {/* Dark gradient background (replace src with real lifestyle image) */}
+      {/* Background — cinematic dark atmosphere simulating gym/studio */}
       <div
         ref={bgRef}
-        className="absolute inset-0 scale-110"
-        style={{
-          background: `
-            linear-gradient(160deg, #0a0a0a 0%, #151515 30%, #0d0d0d 60%, #080808 100%)
-          `,
-        }}
+        className="absolute inset-0 scale-125"
+        style={{ willChange: 'transform' }}
       >
-        {/* Grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.06]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)
-            `,
-            backgroundSize: '80px 80px',
-          }}
-        />
+        {/* Primary dark base */}
+        <div className="absolute inset-0" style={{
+          background: 'linear-gradient(160deg, #080808 0%, #0f0f0f 30%, #060606 65%, #030303 100%)',
+        }} />
 
-        {/* Radial glow */}
-        <div className="absolute inset-0 bg-radial-gradient"
-          style={{
-            background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,255,255,0.03) 0%, transparent 70%)',
-          }}
-        />
+        {/* Simulated overhead lighting — like a gym beam */}
+        <div className="absolute inset-0" style={{
+          background: 'radial-gradient(ellipse 40% 60% at 50% -5%, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 35%, transparent 65%)',
+        }} />
+
+        {/* Left side dramatic shadow */}
+        <div className="absolute inset-0" style={{
+          background: 'linear-gradient(90deg, rgba(0,0,0,0.5) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.5) 100%)',
+        }} />
+
+        {/* Floor reflection hint */}
+        <div className="absolute bottom-0 left-0 right-0 h-1/3" style={{
+          background: 'linear-gradient(0deg, rgba(255,255,255,0.012) 0%, transparent 100%)',
+        }} />
+
+        {/* Noise grain for realism */}
+        <div className="absolute inset-0 opacity-[0.18]" style={{
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E\")",
+          backgroundSize: '256px 256px',
+        }} />
       </div>
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-crown-black/70" />
+      {/* Dark overlays */}
+      <div className="absolute inset-0 z-10" style={{
+        background: 'linear-gradient(to bottom, rgba(8,8,8,0.3) 0%, rgba(8,8,8,0.05) 50%, rgba(8,8,8,0.5) 100%)',
+      }} />
 
       {/* Top rule */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-crown-border to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-crown-border to-transparent z-20" />
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        <p className="text-[10px] tracking-widest3 uppercase text-crown-ash mb-10">
+      <div className="relative z-20 text-center px-6 max-w-5xl mx-auto">
+        <p className="text-[9px] tracking-widest3 uppercase text-crown-muted mb-10">
           — Lifestyle
         </p>
 
         <h2
-          ref={textRef}
-          className="
-            font-heading text-[clamp(3rem,10vw,9rem)]
-            leading-none text-crown-white mb-16 select-none
-          "
+          ref={headingRef}
+          className="font-heading leading-none text-crown-white select-none mb-10"
+          style={{ fontSize: 'clamp(2.5rem, 9vw, 8.5rem)' }}
         >
-          Power. Discipline. Self-Mastery.
+          THE UNIFORM OF THE RELENTLESS
         </h2>
 
-        {/* Stats */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-12 sm:gap-20">
-          {STATS.map(stat => (
-            <div key={stat.label} className="lb-stat text-center">
-              <p className="font-heading text-[clamp(2.5rem,6vw,4.5rem)] leading-none text-crown-white mb-1">
+        <p
+          ref={subRef}
+          className="text-sm text-crown-ash tracking-wider leading-loose max-w-md mx-auto mb-14 font-light"
+        >
+          Every piece is built for the athlete who trains in silence
+          and lets results do the talking.
+        </p>
+
+        {/* Stats row */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-10 sm:gap-16">
+          {[
+            { value: '10K+',  label: 'Athletes' },
+            { value: '42',    label: 'Countries' },
+            { value: '480GSM', label: 'Premium Cotton' },
+          ].map(stat => (
+            <div key={stat.label} className="text-center">
+              <p
+                className="font-heading leading-none text-crown-white mb-2"
+                style={{ fontSize: 'clamp(2rem, 5vw, 4rem)' }}
+              >
                 {stat.value}
               </p>
-              <p className="text-[10px] tracking-widest uppercase text-crown-ash">
-                {stat.label}
-              </p>
+              <p className="text-[9px] tracking-widest uppercase text-crown-muted">{stat.label}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Decorative horizontal lines */}
-      <div className="absolute left-8 top-1/2 -translate-y-1/2 w-px h-32 bg-gradient-to-b from-transparent via-crown-border to-transparent hidden lg:block" />
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 w-px h-32 bg-gradient-to-b from-transparent via-crown-border to-transparent hidden lg:block" />
+      {/* Vertical accent lines */}
+      <div className="absolute left-8 top-1/2 -translate-y-1/2 w-px h-28 bg-gradient-to-b from-transparent via-crown-border to-transparent hidden lg:block z-20" />
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 w-px h-28 bg-gradient-to-b from-transparent via-crown-border to-transparent hidden lg:block z-20" />
 
       {/* Bottom rule */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-crown-border to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-crown-border to-transparent z-20" />
     </section>
   )
 }

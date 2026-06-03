@@ -6,12 +6,13 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 
 // Lazy-load below-fold sections for fast initial paint
-const FeaturedCollection = lazy(() => import('./components/FeaturedCollection'))
-const BrandStatement     = lazy(() => import('./components/BrandStatement'))
-const InteractiveThree   = lazy(() => import('./components/InteractiveThree'))
-const FeaturedProducts   = lazy(() => import('./components/FeaturedProducts'))
-const LifestyleBanner    = lazy(() => import('./components/LifestyleBanner'))
-const FinalCTA           = lazy(() => import('./components/FinalCTA'))
+const FeaturedProduct  = lazy(() => import('./components/FeaturedCollection'))
+const BestSellers      = lazy(() => import('./components/FeaturedProducts'))
+const Manifesto        = lazy(() => import('./components/BrandStatement'))
+const LifestyleSection = lazy(() => import('./components/LifestyleBanner'))
+const Collections      = lazy(() => import('./components/Collections'))
+const JoinKingdom      = lazy(() => import('./components/FinalCTA'))
+const Footer           = lazy(() => import('./components/Footer'))
 
 export default function App() {
   useSmoothScroll()
@@ -25,19 +26,23 @@ export default function App() {
 
       {/* Page sections */}
       <main>
-        {/* Hero loads eagerly — it's above the fold */}
+        {/* Hero — above the fold, eager */}
         <Hero />
 
-        {/* Everything below is lazy */}
+        {/* Below-fold sections — lazy loaded */}
         <Suspense fallback={<div className="h-screen bg-crown-black" />}>
-          <FeaturedCollection />
-          <BrandStatement />
-          <InteractiveThree />
-          <FeaturedProducts />
-          <LifestyleBanner />
-          <FinalCTA />
+          <FeaturedProduct />
+          <BestSellers />
+          <Manifesto />
+          <LifestyleSection />
+          <Collections />
+          <JoinKingdom />
         </Suspense>
       </main>
+
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </div>
   )
 }
