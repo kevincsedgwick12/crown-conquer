@@ -71,7 +71,7 @@ export default function Hero() {
           loop
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          src="/hero-bg.mp4"
+          src="https://cdn.jsdelivr.net/gh/kevincsedgwick12/crown-conquer@main/public/hero-bg.mp4"
         />
         {/* Dark overlay so text stays legible */}
         <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.55)' }} />
