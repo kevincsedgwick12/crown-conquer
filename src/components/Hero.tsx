@@ -59,34 +59,28 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-crown-black"
     >
-      {/* ── Cinematic background ── */}
+      {/* ── Video background ── */}
       <div
         ref={bgLayerRef}
         className="absolute inset-0 z-0 scale-110"
         style={{ willChange: 'transform' }}
       >
-        {/* Deep atmospheric base */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/hero-bg.mp4"
+        />
+        {/* Dark overlay so text stays legible */}
+        <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.55)' }} />
+        {/* Vignette */}
         <div className="absolute inset-0" style={{
-          background: 'radial-gradient(ellipse 100% 90% at 50% 35%, #131313 0%, #080808 55%, #030303 100%)'
-        }} />
-        {/* Overhead light beam — simulates gym ceiling fixture */}
-        <div className="absolute inset-0" style={{
-          background: 'radial-gradient(ellipse 45% 55% at 50% 0%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 40%, transparent 70%)'
-        }} />
-        {/* Left rim */}
-        <div className="absolute inset-0" style={{
-          background: 'radial-gradient(ellipse 25% 70% at 0% 45%, rgba(255,255,255,0.025) 0%, transparent 65%)'
-        }} />
-        {/* Right rim */}
-        <div className="absolute inset-0" style={{
-          background: 'radial-gradient(ellipse 25% 70% at 100% 45%, rgba(255,255,255,0.025) 0%, transparent 65%)'
-        }} />
-        {/* Very subtle horizontal scan lines */}
-        <div className="absolute inset-0 opacity-[0.035]" style={{
-          backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.15) 3px, rgba(255,255,255,0.15) 4px)',
+          background: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.6) 100%)'
         }} />
         {/* Noise grain */}
-        <div className="absolute inset-0 opacity-[0.12]" style={{
+        <div className="absolute inset-0 opacity-[0.08]" style={{
           backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E\")",
           backgroundSize: '200px 200px',
         }} />
