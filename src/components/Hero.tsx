@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { useMagnetic } from '../hooks/useMagnetic'
+import { useDiscount } from '../context/DiscountContext'
 
 export default function Hero() {
   const sectionRef  = useRef<HTMLElement>(null)
@@ -13,6 +14,7 @@ export default function Hero() {
 
   const btnPrimary   = useMagnetic(0.4)
   const btnSecondary = useMagnetic(0.4)
+  const { getShopUrl } = useDiscount()
 
   // Subtle mouse parallax on background
   useEffect(() => {
@@ -121,8 +123,9 @@ export default function Hero() {
 
         {/* CTAs */}
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4">
-          <button
-            ref={btnPrimary as React.RefObject<HTMLButtonElement>}
+          <a
+            ref={btnPrimary}
+            href={getShopUrl('/collections/all')}
             className="
               relative overflow-hidden
               px-12 py-[14px]
@@ -133,10 +136,11 @@ export default function Hero() {
             "
           >
             <span className="mag-btn-inner relative z-10">Shop Collection</span>
-          </button>
+          </a>
 
-          <button
-            ref={btnSecondary as React.RefObject<HTMLButtonElement>}
+          <a
+            ref={btnSecondary}
+            href={getShopUrl('/collections')}
             className="
               relative overflow-hidden
               px-12 py-[14px]
@@ -154,7 +158,7 @@ export default function Hero() {
               translate-y-full group-hover:translate-y-0
               transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)]
             " />
-          </button>
+          </a>
         </div>
       </div>
 

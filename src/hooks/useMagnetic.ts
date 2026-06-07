@@ -15,12 +15,13 @@ export function useMagnetic(strength = 0.35) {
 
     const inner = el.querySelector<HTMLElement>('.mag-btn-inner')
 
-    const onEnter = (e: MouseEvent) => {
+    const onEnter = (e: Event) => {
+      const me = e as MouseEvent
       const rect = el.getBoundingClientRect()
       const cx = rect.left + rect.width  / 2
       const cy = rect.top  + rect.height / 2
-      const dx = e.clientX - cx
-      const dy = e.clientY - cy
+      const dx = me.clientX - cx
+      const dy = me.clientY - cy
       gsap.to(el,    { x: dx * strength,        y: dy * strength,        duration: 0.4, ease: 'power2.out' })
       if (inner)
         gsap.to(inner, { x: dx * strength * 0.5, y: dy * strength * 0.5, duration: 0.4, ease: 'power2.out' })
@@ -40,5 +41,5 @@ export function useMagnetic(strength = 0.35) {
     }
   }, [strength])
 
-  return ref as React.RefObject<HTMLButtonElement>
+  return ref as React.RefObject<HTMLButtonElement & HTMLAnchorElement>
 }

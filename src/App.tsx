@@ -1,23 +1,26 @@
 import { Suspense, lazy } from 'react'
 import { useSmoothScroll } from './hooks/useSmoothScroll'
+import { DiscountProvider } from './context/DiscountContext'
 import CustomCursor from './components/CustomCursor'
 import ScrollProgress from './components/ScrollProgress'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 
 // Lazy-load below-fold sections for fast initial paint
-const FeaturedProduct  = lazy(() => import('./components/FeaturedCollection'))
-const BestSellers      = lazy(() => import('./components/FeaturedProducts'))
-const Manifesto        = lazy(() => import('./components/BrandStatement'))
-const LifestyleSection = lazy(() => import('./components/LifestyleBanner'))
-const Collections      = lazy(() => import('./components/Collections'))
-const JoinKingdom      = lazy(() => import('./components/FinalCTA'))
-const Footer           = lazy(() => import('./components/Footer'))
+const FeaturedProduct    = lazy(() => import('./components/FeaturedCollection'))
+const BestSellers        = lazy(() => import('./components/FeaturedProducts'))
+const Manifesto          = lazy(() => import('./components/BrandStatement'))
+const LifestyleSection   = lazy(() => import('./components/LifestyleBanner'))
+const Collections        = lazy(() => import('./components/Collections'))
+const DiscountSection    = lazy(() => import('./components/DiscountSection'))
+const JoinKingdom        = lazy(() => import('./components/FinalCTA'))
+const Footer             = lazy(() => import('./components/Footer'))
 
 export default function App() {
   useSmoothScroll()
 
   return (
+    <DiscountProvider>
     <div className="relative bg-crown-black text-crown-white overflow-x-hidden">
       {/* Global UI */}
       <CustomCursor />
@@ -36,6 +39,7 @@ export default function App() {
           <Manifesto />
           <LifestyleSection />
           <Collections />
+          <DiscountSection />
           <JoinKingdom />
         </Suspense>
       </main>
@@ -44,5 +48,6 @@ export default function App() {
         <Footer />
       </Suspense>
     </div>
+    </DiscountProvider>
   )
 }

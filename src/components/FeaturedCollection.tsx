@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useMagnetic } from '../hooks/useMagnetic'
+import { useDiscount } from '../context/DiscountContext'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -10,7 +11,8 @@ export default function FeaturedProduct() {
   const productRef   = useRef<HTMLDivElement>(null)
   const contentRef   = useRef<HTMLDivElement>(null)
   const imageWrapRef = useRef<HTMLDivElement>(null)
-  const btnShop      = useMagnetic(0.38)
+  const btnShop         = useMagnetic(0.38)
+  const { getShopUrl }  = useDiscount()
 
   // Floating animation + mouse tilt on product
   useEffect(() => {
@@ -238,19 +240,21 @@ export default function FeaturedProduct() {
 
           {/* CTA */}
           <div className="fp-line">
-            <button
-              ref={btnShop as React.RefObject<HTMLButtonElement>}
+            <a
+              ref={btnShop}
+              href={getShopUrl('/products/relentless-hoodie')}
               className="
                 relative overflow-hidden
+                inline-block
                 px-14 py-4 w-full sm:w-auto
                 bg-crown-white text-crown-black
                 text-[10px] font-semibold tracking-widest uppercase
                 hover:bg-crown-cream transition-colors duration-300
-                cursor-none
+                cursor-none text-center
               "
             >
               <span className="mag-btn-inner">Shop Now</span>
-            </button>
+            </a>
           </div>
         </div>
       </div>
