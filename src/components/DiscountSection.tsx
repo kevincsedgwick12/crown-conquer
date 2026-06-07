@@ -8,9 +8,9 @@ gsap.registerPlugin(ScrollTrigger)
 export default function DiscountSection() {
   const { code, applyCode, clearCode, getShopUrl } = useDiscount()
 
-  const [input, setInput] = useState('')
-  const [error, setError] = useState(false)
-  const inputRef          = useRef<HTMLInputElement>(null)
+  const [input, setInput]       = useState('')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const inputRef                = useRef<HTMLInputElement>(null)
 
   const sectionRef  = useRef<HTMLElement>(null)
   const eyebrowRef  = useRef<HTMLDivElement>(null)
@@ -52,15 +52,20 @@ export default function DiscountSection() {
 
   function handleApply() {
     const trimmed = input.trim()
-    if (!trimmed) { setError(true); inputRef.current?.focus(); return }
-    applyCode(trimmed)
-    setInput('')
-    setError(false)
+    if (!trimmed) { setErrorMsg('Please enter a promo code'); inputRef.current?.focus(); return }
+    const result = applyCode(trimmed)
+    if (result === 'invalid') {
+      setErrorMsg('Invalid code — please check and try again')
+      inputRef.current?.select()
+    } else {
+      setInput('')
+      setErrorMsg(null)
+    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter') handleApply()
-    if (error) setError(false)
+    if (errorMsg) setErrorMsg(null)
   }
 
   return (
@@ -123,7 +128,7 @@ export default function DiscountSection() {
                   ref={inputRef}
                   type="text"
                   value={input}
-                  onChange={e => { setInput(e.target.value.toUpperCase()); setError(false) }}
+                  onChange={e => { setInput(e.target.value.toUpperCase()); setErrorMsg(null) }}
                   onKeyDown={handleKeyDown}
                   placeholder="YOUR CODE HERE"
                   maxLength={32}
@@ -131,7 +136,7 @@ export default function DiscountSection() {
                   autoComplete="off"
                   className={`
                     w-full bg-transparent text-center
-                    border-b-2 ${error ? 'border-red-400' : 'border-crown-border focus:border-crown-white'}
+                    border-b-2 ${errorMsg ? 'border-red-400' : 'border-crown-border focus:border-crown-white'}
                     outline-none
                     text-lg md:text-2xl font-heading tracking-[0.3em] uppercase text-crown-white
                     placeholder:text-crown-border/50 placeholder:text-base placeholder:tracking-widest
@@ -141,9 +146,9 @@ export default function DiscountSection() {
                   `}
                   style={{ WebkitAppearance: 'none' }}
                 />
-                {error && (
+                {errorMsg && (
                   <p className="absolute -bottom-6 left-0 right-0 text-center text-[9px] tracking-widest uppercase text-red-400">
-                    Please enter a promo code
+                    {errorMsg}
                   </p>
                 )}
               </div>

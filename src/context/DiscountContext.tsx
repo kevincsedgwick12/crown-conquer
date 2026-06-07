@@ -1,11 +1,12 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import VALID_CODES from '../data/discounts.json'
 
 const STORAGE_KEY = 'cc_discount_code'
 const STORE_BASE  = 'https://crownconquer.com'
 
 interface DiscountContextValue {
   code:       string | null
-  applyCode:  (raw: string) => void
+  applyCode:  (raw: string) => 'ok' | 'invalid'
   clearCode:  () => void
   getShopUrl: (path?: string) => string
 }
@@ -28,11 +29,13 @@ export function DiscountProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  function applyCode(raw: string) {
+  function applyCode(raw: string): 'ok' | 'invalid' {
     const upper = raw.trim().toUpperCase()
-    if (!upper) return
+    if (!upper) return 'invalid'
+    if (!(VALID_CODES as string[]).includes(upper)) return 'invalid'
     try { localStorage.setItem(STORAGE_KEY, upper) } catch {}
     setCode(upper)
+    return 'ok'
   }
 
   function clearCode() {
