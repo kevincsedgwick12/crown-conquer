@@ -242,7 +242,7 @@ export default function FeaturedProduct() {
           <div className="fp-line">
             <a
               ref={btnShop}
-              href={getShopUrl('/products/relentless-hoodie')}
+              href={getShopUrl('/shop')}
               className="
                 relative overflow-hidden
                 inline-block

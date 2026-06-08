@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import VALID_CODES from '../data/discounts.json'
 
 const STORAGE_KEY = 'cc_discount_code'
-const STORE_BASE  = 'https://crown-n-conquer-3.myshopify.com'
+const STORE_BASE  = 'https://crownconquer.com'
 
 interface DiscountContextValue {
   code:       string | null
@@ -43,7 +43,7 @@ export function DiscountProvider({ children }: { children: React.ReactNode }) {
     setCode(null)
   }
 
-  function getShopUrl(path: string = '/collections/all'): string {
+  function getShopUrl(path: string = '/shop'): string {
     if (code) {
       return `${STORE_BASE}/discount/${code}?redirect=${encodeURIComponent(path)}`
     }

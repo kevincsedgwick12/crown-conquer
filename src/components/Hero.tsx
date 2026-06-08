@@ -125,7 +125,7 @@ export default function Hero() {
         <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4">
           <a
             ref={btnPrimary}
-            href={getShopUrl('/collections/all')}
+            href={getShopUrl('/shop')}
             className="
               relative overflow-hidden
               px-12 py-[14px]
@@ -140,7 +140,7 @@ export default function Hero() {
 
           <a
             ref={btnSecondary}
-            href={getShopUrl('/collections')}
+            href={getShopUrl('/shop')}
             className="
               relative overflow-hidden
               px-12 py-[14px]
