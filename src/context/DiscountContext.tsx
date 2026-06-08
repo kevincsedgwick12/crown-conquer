@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import VALID_CODES from '../data/discounts.json'
 
 const STORAGE_KEY = 'cc_discount_code'
-const STORE_BASE  = 'https://crownconquer.com'
+const STORE_BASE  = 'https://crown-n-conquer-3.myshopify.com'
 
 interface DiscountContextValue {
   code:       string | null
